@@ -103,6 +103,8 @@ string mem_string()
   size_t line_end_pos;
   istringstream iss;
   ostringstream oss;
+  oss.precision( 1 );
+  oss.setf( ios::fixed | ios::right );
   string mem_line;
 
   ifstream meminfo_file( "/proc/meminfo" );
@@ -127,7 +129,9 @@ string mem_string()
     }
   meminfo_file.close();
 
-  oss << used_mem / 1024 << '/' << total_mem / 1024 << "MB";
+  double percent_used_mem = 100.0 * used_mem / total_mem ; 
+
+  oss << percent_used_mem << "% Mem, " << used_mem / 1024 << '/' << total_mem / 1024 << "MB";
 
   return oss.str();
 }
